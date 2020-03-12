@@ -11,3 +11,8 @@
 
 (define (set-val bx newValue)
   ((cdr bx) newValue))
+
+
+;(get-val my-box)
+(set-val my-box 5)
+;(get-val my-box)
