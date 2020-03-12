@@ -6,3 +6,8 @@
 
 (define my-box (box 3)) ; this returns two procedures appended with cons
                         ; y value is not required to call this function! for now...
+(define (get-val bx)
+  ((car bx)))
+
+(define (set-val bx newValue)
+  ((cdr bx) newValue))
