@@ -1,18 +1,36 @@
 #lang racket
-(define (box x) ;returns x and updated x with y
-  (cons
-   (λ() x) ;x //or (lambda() x)
-   (λ(y) (set! x y)))) ;put y into x //or (lambda(y) (set! x y))))
 
-(define my-box (box 3)) ; this returns two procedures appended with cons
-                        ; y value is not required to call this function! for now...
-(define (get-val bx)
-  ((car bx)))
-
-(define (set-val bx newValue)
-  ((cdr bx) newValue))
+(define (make-adder x)
+  (lambda (y) (+ x y)))
 
 
-;(get-val my-box)
-(set-val my-box 5)
-;(get-val my-box)
+(let ([z (make-adder 2)]) ; z is now a procedure which needs one more argument to add
+  (z 5))
+
+
+(define (my-counter)
+  (let ([count 1])
+    (lambda () (set! count (+ 1 count)) count))) ; i add count to 1 and print the updated count
+
+(define hi (my-counter))
+
+(hi)
+
+(define (my-box x) ; to call this my-box function, you only need one argument
+  (cons (lambda () x)
+        (lambda (y) (set! x y)))) ; to get the second value, (cdr box), you will need another argument y
+
+;let's make getter and setter
+
+(define (box-getter box)
+  ((car box))) ;since (car x) returns a lambda function, we need another paranthesis
+(define (box-setter box y)
+  ((cdr box)y))
+
+
+;let's set up the environment
+(define my-environment (my-box 3))
+
+(box-getter my-environment) ;get the value of box
+(box-setter my-environment 5) ;set the value of box
+(box-getter my-environment) ;get the value of box
